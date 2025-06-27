@@ -116,15 +116,21 @@ myGallery.insertAdjacentHTML("beforeend", newGallerySyntax);
 // myGallery.insertAdjacentHTML("beforeend", myGalleryInsertion);
 
 myGallery.addEventListener("click", function (event) {
-  if (event.target.closest(".gallery-link")) {
-    event.preventDefault();
+  if (
+    event.target.nodeName !== "IMG" ||
+    !event.target.classList.contains("gallery-image")
+  ) {
+    return;
   }
+  event.preventDefault();
+
   const instance = basicLightbox.create(`
     <div class="modal">
         <img
           src="${event.target.dataset.source}"
+          alt="${event.target.alt}"
         />
     </div>
-`);
+  `);
   instance.show();
 });
